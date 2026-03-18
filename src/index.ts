@@ -134,13 +134,11 @@ server.tool(
       return { content: [{ type: "text", text: "Вагоны не найдены." }] };
     }
     const lines = wagons.map((w) => {
-      const availableSeats = w.seats.filter((s) => s.available).map((s) => s.number);
       return [
-        `Вагон №${w.number} (${w.class}) — ${w.available_seats} мест, цена: ${w.price} грн`,
-        availableSeats.length > 0
-          ? `  Свободные места: ${availableSeats.join(", ")}`
-          : "  Нет свободных мест",
-        w.services.length > 0 ? `  Услуги: ${w.services.join(", ")}` : "",
+        `Вагон №${w.number} (${w.class}) — ${w.available_seats} місць, ціна: ${w.price} грн`,
+        `  Нижніх: ${w.free_seats_lower}, верхніх: ${w.free_seats_top}`,
+        w.seats.length > 0 ? `  Вільні місця: ${w.seats.join(", ")}` : "  Немає вільних місць",
+        w.services.length > 0 ? `  Послуги: ${w.services.join(", ")}` : "",
       ]
         .filter(Boolean)
         .join("\n");

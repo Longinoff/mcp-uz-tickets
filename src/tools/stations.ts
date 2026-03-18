@@ -11,18 +11,10 @@ export async function searchStations(query: string): Promise<Station[]> {
   });
 
   const data = response.data;
+  const list: Station[] = Array.isArray(data) ? data : [];
 
-  // API может вернуть массив напрямую или в поле data/stations
-  const list: Station[] = Array.isArray(data)
-    ? data
-    : Array.isArray(data?.data)
-    ? data.data
-    : Array.isArray(data?.stations)
-    ? data.stations
-    : [];
-
-  return list.map((s) => ({
-    id: s.id,
-    title: s.title,
+  return list.map((s: { id?: number; name?: string; title?: string }) => ({
+    id: Number(s.id),
+    title: String(s.name ?? s.title ?? ""),
   }));
 }
